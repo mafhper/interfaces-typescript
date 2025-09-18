@@ -1,0 +1,134 @@
+// Atividades Práticas
+// Opção 3 – Gerenciador de Tarefas Avançado
+
+// Descrição: Criar um to-do list com categorias e datas.
+
+// Interface Tarefa
+// id: number, descricao: string, categoria?: string
+// concluida: boolean, dataConclusao?: Date | null
+
+// Funções
+// adicionarTarefa() → cria nova tarefa
+// concluirTarefa() → marca como concluída e adiciona dataConclusao
+// listarPendentes() e listarConcluidas()
+
+// Uso de union e optional: categoria pode ser string | undefined. dataConclusao é Date | null.
+
+// --- Definindo a interface `Tarefa` ---
+interface Tarefa {
+  id: number;
+  descricao: string;
+  categoria?: string;
+  concluida: boolean;
+  dataConclusao?: Date | null;
+}
+
+// --- Criando um array tipado para armazenar as tarefas ---
+const listaDeTarefas: Tarefa[] = [];
+
+// --- Implementando as funções de gerenciamento ---
+
+/**
+ * Adiciona uma nova tarefa à lista.
+ * @param descricao A descrição da tarefa.
+ * @param categoria A categoria opcional da tarefa.
+ */
+function adicionarTarefa(descricao: string, categoria?: string): void {
+  const novaTarefa: Tarefa = {
+    id: listaDeTarefas.length + 1,
+    descricao,
+    categoria,
+    concluida: false,
+    dataConclusao: null,
+  };
+  listaDeTarefas.push(novaTarefa);
+  console.log(`Tarefa "${descricao}" adicionada.`);
+}
+
+/**
+ * Marca uma tarefa como concluída pelo seu ID e registra a data de conclusão.
+ * @param id O ID da tarefa a ser concluída.
+ */
+function concluirTarefa(id: number): void {
+  const tarefa = listaDeTarefas.find((t) => t.id === id);
+  if (tarefa) {
+    if (tarefa.concluida) {
+      console.log(`A tarefa "${tarefa.descricao}" já está concluída.`);
+    } else {
+      tarefa.concluida = true;
+      tarefa.dataConclusao = new Date();
+      console.log(
+        `Tarefa "${
+          tarefa.descricao
+        }" concluída em ${tarefa.dataConclusao.toLocaleString()}.`
+      );
+    }
+  } else {
+    console.log(`Erro: Tarefa com ID ${id} não encontrada.`);
+  }
+}
+
+/**
+ * Lista todas as tarefas que ainda não foram concluídas.
+ */
+function listarPendentes(): void {
+  const pendentes = listaDeTarefas.filter((t) => !t.concluida);
+  console.log('\n--- Tarefas Pendentes ---');
+  if (pendentes.length === 0) {
+    console.log('Nenhuma tarefa pendente.');
+  } else {
+    pendentes.forEach((tarefa) => {
+      console.log(
+        `[ID: ${tarefa.id}] ${tarefa.descricao} ${
+          tarefa.categoria ? `(${tarefa.categoria})` : ''
+        }`
+      );
+    });
+  }
+}
+
+/**
+ * Lista todas as tarefas que já foram concluídas.
+ */
+function listarConcluidas(): void {
+  const concluidas = listaDeTarefas.filter((t) => t.concluida);
+  console.log('\n--- Tarefas Concluídas ---');
+  if (concluidas.length === 0) {
+    console.log('Nenhuma tarefa concluída.');
+  } else {
+    concluidas.forEach((tarefa) => {
+      console.log(
+        `[ID: ${tarefa.id}] ${
+          tarefa.descricao
+        } - Concluída em: ${tarefa.dataConclusao?.toLocaleString()}`
+      );
+    });
+  }
+}
+
+// --- Testando o fluxo do sistema ---
+
+console.log('--- Executando o Gerenciador de Tarefas ---');
+
+// 1. Adicionando algumas tarefas
+adicionarTarefa('Fazer compras', 'Pessoal');
+adicionarTarefa('Responder e-mails do trabalho');
+adicionarTarefa('Ligar para o dentista', 'Saúde');
+adicionarTarefa('Finalizar relatório do projeto');
+
+// 2. Listando as tarefas pendentes
+listarPendentes();
+
+// 3. Concluindo algumas tarefas
+concluirTarefa(1);
+concluirTarefa(4);
+
+// 4. Tentando concluir uma tarefa que já foi concluída
+concluirTarefa(1);
+
+// 5. Tentando concluir uma tarefa que não existe
+concluirTarefa(99);
+
+// 6. Listando as tarefas pendentes e concluídas para ver o resultado
+listarPendentes();
+listarConcluidas();
