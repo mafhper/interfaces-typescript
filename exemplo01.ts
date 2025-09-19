@@ -1,22 +1,20 @@
 // Atividades Práticas
-// Definir Interface
-// Criar interface com todos os campos (obrigatórios, opcionais e que aceitam null)
-// Criar Array Tipado
-// Implementar array tipado com a interface para armazenar os registros
-// Implementar CRUD
-// Desenvolver funções de CRUD (cadastrar, listar, atualizar, excluir/concluir)
-// Testar Fluxo
-// Criar alguns objetos e executar no console para validar funcionamento
-
-// Opção 1 – Sistema de Agendamento de Consultas
-
+// Sistema de Agendamento de Consultas
 // Descrição: Criar um programa que gerencie consultas médicas ou de serviços.
 
-// Interface Consulta
+// Definir Interface - ok
+// Criar interface com todos os campos (obrigatórios, opcionais e que aceitam null)
 
+// Criar Array Tipado
+// Implementar array tipado com a interface para armazenar os registros
+
+// Interface Consulta
 // Campos obrigatórios: id (string), paciente (string), data (Date)
 // Campos opcionais: observacoes?: string, dataCancelamento?: Date | null
 // Status: status: "agendada" | "concluída" | "cancelada"
+
+// Implementar CRUD
+// Desenvolver funções de CRUD (cadastrar, listar, atualizar, excluir/concluir)
 
 // Funções
 // agendarConsulta() → cria uma nova consulta
@@ -25,7 +23,22 @@
 // listarPorStatus(status: string) → filtra por status
 // Uso de null/undefined e union: dataCancelamento inicia como null e só recebe valor quando cancelada. observacoes é opcional e pode ser undefined.
 
-// --- Definindo a interface `Consulta` ---
+// Testar Fluxo
+// Criar alguns objetos e executar no console para validar funcionamento
+
+//-----------------------------------------------------
+
+/**
+ * `Consulta`
+ * Define a estrutura de um objeto de consulta, garantindo a consistência dos dados.
+ *
+ * id - Identificador único da consulta.
+ * paciente - Nome do paciente.
+ * data - Data e hora da consulta.
+ * status {'agendada' | 'concluída' | 'cancelada'} - O status atual da consulta, usando um union type para limitar as opções.
+ * observacoes - Campo opcional para notas adicionais sobre a consulta.
+ * dataCancelamento {Date | null} - Data de cancelamento da consulta, opcional e pode ser null se a consulta não foi cancelada.
+ */
 interface Consulta {
   id: string;
   paciente: string;
@@ -35,11 +48,26 @@ interface Consulta {
   dataCancelamento?: Date | null;
 }
 
-// --- Criando um array tipado para armazenar as consultas ---
+/**
+ * `consultas`
+ * Um array tipado que atua como o banco de dados em memória para armazenar os objetos `Consulta`.
+ */
 const consultas: Consulta[] = [];
 
-// --- Implementando as funções CRUD ---
+// --- Funções de Operações (CRUD) ---
 
+/**
+ * `agendarConsulta`
+ * Cria e adiciona uma nova consulta ao array `consultas`.
+ *
+ * paciente - O nome do paciente para o qual a consulta será agendada.
+ * data - O objeto Date contendo a data e hora da consulta.
+ * observacoes - Um campo opcional para anotações sobre a consulta.
+ *
+ * Um ID simples é gerado para este exemplo, usando o tamanho atual do array.
+ *
+ * dataCancelamento é definido como `null` por padrão, pois a consulta é agendada com sucesso.
+ */
 function agendarConsulta(
   paciente: string,
   data: Date,
@@ -51,94 +79,116 @@ function agendarConsulta(
     data,
     status: 'agendada',
     observacoes,
-    dataCancelamento: null, // Inicialmente null
+    dataCancelamento: null,
   };
   consultas.push(novaConsulta);
   console.log(
-    `Consulta para ${paciente} agendada com sucesso! ID: ${novaConsulta.id}`
+    `\n> Consulta para "${paciente}" agendada com sucesso!\n> ID: ${novaConsulta.id}`
   );
 }
 
 /**
- * Lista todas as consultas existentes no sistema.
+ * `listarConsultas`
+ * Exibe todas as consultas cadastradas no console, incluindo detalhes como status,
+ * observações e data de cancelamento, se aplicável.
  */
-
 function listarConsultas(): void {
-  console.log('\n--- Lista de Todas as Consultas ---');
+  console.log('\n--- Lista Completa de Consultas ---');
   if (consultas.length === 0) {
-    console.log('Nenhuma consulta encontrada.');
-  } else {
-    consultas.forEach((consulta) => {
-      console.log(
-        `ID: ${consulta.id}, Paciente: ${
-          consulta.paciente
-        }, Data: ${consulta.data.toLocaleString()}, Status: ${consulta.status}`
-      );
-      if (consulta.observacoes) {
-        console.log(`   Observações: ${consulta.observacoes}`);
-      }
-      if (consulta.dataCancelamento) {
-        console.log(
-          `   Cancelada em: ${consulta.dataCancelamento.toLocaleString()}`
-        );
-      }
-    });
+    console.log('Nenhuma consulta encontrada no sistema.');
+    return;
   }
+  consultas.forEach((consulta) => {
+    // A formatação de data é um ponto importante para a legibilidade, usando toLocaleString().
+    let detalhes = `ID: ${consulta.id} | Paciente: ${
+      consulta.paciente
+    } | Data: ${consulta.data.toLocaleString()} | Status: ${consulta.status}`;
+    // Verificação de campos opcionais (`?` e `null`) antes de exibi-los.
+    if (consulta.observacoes) {
+      detalhes += `\nObservações: ${consulta.observacoes}`;
+    }
+    if (consulta.dataCancelamento) {
+      detalhes += `\nCancelada em: ${consulta.dataCancelamento.toLocaleString()}`;
+    }
+    console.log(detalhes);
+  });
 }
 
+/**
+ * `listarPorStatus`
+ * Filtra e exibe consultas com base em um status específico.
+ *
+ * status {'agendada' | 'concluída' | 'cancelada'} - O status pelo qual as consultas serão filtradas.
+ */
 function listarPorStatus(status: 'agendada' | 'concluída' | 'cancelada'): void {
   const consultasFiltradas = consultas.filter(
     (consulta) => consulta.status === status
   );
-  console.log(`\n--- Consultas com Status: ${status} ---`);
+  console.log(`\n--- Consultas com Status "${status}" ---`);
   if (consultasFiltradas.length === 0) {
-    console.log(`Nenhuma consulta encontrada com o status "${status}".`);
+    console.log(`\nNenhuma consulta encontrada com o status "${status}".`);
   } else {
     consultasFiltradas.forEach((consulta) => {
       console.log(
-        `ID: ${consulta.id}, Paciente: ${
+        `ID: ${consulta.id} | Paciente: ${
           consulta.paciente
-        }, Data: ${consulta.data.toLocaleString()}`
+        } | Data: ${consulta.data.toLocaleString()}`
       );
     });
   }
 }
 
+/**
+ * `cancelarConsulta`
+ * Encontra uma consulta pelo ID e altera seu status para "cancelada",
+ * atribuindo a data de cancelamento.
+ */
 function cancelarConsulta(id: string): void {
   const consulta = consultas.find((c) => c.id === id);
-  if (consulta) {
-    if (consulta.status === 'cancelada') {
-      console.log(`A consulta ${id} já está cancelada.`);
-    } else {
-      consulta.status = 'cancelada';
-      consulta.dataCancelamento = new Date(); // Atribui a data de cancelamento
-      console.log(
-        `Consulta ${id} cancelada com sucesso em ${consulta.dataCancelamento.toLocaleString()}.`
-      );
-    }
-  } else {
-    console.log(`Erro: Consulta com ID ${id} não encontrada.`);
+  if (!consulta) {
+    console.log(`\nErro: Consulta com ID "${id}" não encontrada.`);
+    return;
   }
+
+  if (consulta.status === 'cancelada') {
+    console.log(`\nA consulta com ID "${id}" já está cancelada.`);
+    return;
+  }
+
+  // Atualização dos campos `status` e `dataCancelamento`.
+  consulta.status = 'cancelada';
+  consulta.dataCancelamento = new Date();
+  console.log(
+    `\nConsulta com ID "${id}" cancelada com sucesso em ${consulta.dataCancelamento.toLocaleString()}.`
+  );
 }
 
+/**
+ * `concluirConsulta`
+ * Encontra uma consulta pelo ID e altera seu status para "concluída".
+ */
 function concluirConsulta(id: string): void {
   const consulta = consultas.find((c) => c.id === id);
-  if (consulta) {
-    if (consulta.status === 'concluída') {
-      console.log(`A consulta ${id} já está concluída.`);
-    } else {
-      consulta.status = 'concluída';
-      console.log(`Consulta ${id} marcada como concluída.`);
-    }
-  } else {
-    console.log(`Erro: Consulta com ID ${id} não encontrada.`);
+  if (!consulta) {
+    console.log(`\nErro: Consulta com ID "${id}" não encontrada.`);
+    return;
   }
+
+  if (consulta.status === 'concluída') {
+    console.log(`\nA consulta com ID "${id}" já está concluída.`);
+    return;
+  }
+
+  // Atualização do campo `status`.
+  consulta.status = 'concluída';
+  console.log(`\nConsulta com ID "${id}" marcada como concluída.`);
 }
 
-// --- Testando o fluxo do sistema no console ---
+// --- Teste de Fluxo ---
 
-// 1. Agendando algumas consultas
-console.log('--- Executando o Sistema de Agendamento ---');
+console.log('\n--- Iniciando o Sistema de Agendamento ---');
+
+// 1. Agendando consultas
 agendarConsulta(
   'João da Silva',
   new Date(2025, 9, 20, 10, 0),
@@ -152,22 +202,22 @@ agendarConsulta(
 );
 agendarConsulta('Ana Paula', new Date(2025, 9, 23, 11, 0));
 
-// 2. Exibindo todas as consultas agendadas inicialmente
+// 2. Exibindo o estado inicial das consultas
 listarConsultas();
 
-// 3. Cancelando uma consulta
+// 3. Operações de atualização de status
 cancelarConsulta('consulta-2');
-
-// 4. Marcando uma consulta como concluída
 concluirConsulta('consulta-1');
+cancelarConsulta('consulta-4'); // Cancelando mais uma para testar
 
-// 5. Tentando cancelar uma consulta inexistente
-cancelarConsulta('consulta-99');
+// 4. Tentando operações em IDs inexistentes ou já alterados
+concluirConsulta('consulta-1'); // Tentando concluir uma já concluída
+cancelarConsulta('consulta-99'); // ID inexistente
 
-// 6. Listando todas as consultas para ver o resultado das operações
+// 5. Verificando o estado final
 listarConsultas();
 
-// 7. Listando consultas por status para verificar o filtro
+// 6. Listando por status para verificar o filtro
 listarPorStatus('agendada');
 listarPorStatus('concluída');
 listarPorStatus('cancelada');
