@@ -6,8 +6,6 @@
 
 ## Visão geral
 
-Este projeto contém três exemplos simples em TypeScript que ilustram o uso de **interfaces**. Cada arquivo demonstra conceitos como propriedades obrigatórias, opcionais, métodos e herança.
-
 ### Exemplo 01: Sistema de Agendamento de Consultas
 **Descrição:** Criar um programa que gerencie consultas médicas ou de serviços.
 
