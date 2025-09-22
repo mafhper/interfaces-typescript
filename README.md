@@ -8,7 +8,7 @@
 
 Este projeto contém três exemplos simples em TypeScript que ilustram o uso de **interfaces**. Cada arquivo demonstra conceitos como propriedades obrigatórias, opcionais, métodos e herança.
 
-### `exemplo01-consultas.ts`: Sistema de Agendamento de Consultas
+### Exemplo 01: Sistema de Agendamento de Consultas
 **Descrição:** Criar um programa que gerencie consultas médicas ou de serviços.
 
 - **Interface `Consulta`**:
@@ -120,7 +120,7 @@ Erro: Consulta com ID "consulta-99" não encontrada.
 - ID: consulta-4 | Paciente: Ana Paula | Data: 23/10/2025, 11:00:00
 ```
 
-### `exemplo02-biblioteca.ts`: Sistema de Biblioteca
+### Exemplo 02: Sistema de Biblioteca
 **Descrição:** Gerenciar livros e empréstimos de forma simples.
 
 - **Interface `Livro`**:
@@ -203,7 +203,7 @@ Aviso: O livro "O Hobbit" já está disponível (não emprestado).
 -------------------------------------
 ```
 
-### `exemplo03-tarefas.ts`: Gerenciador de Tarefas Avançado
+### Exemplo 03: Gerenciador de Tarefas Avançado
 **Descrição:** Criar um to-do list com categorias e datas.
 
 - **Interface `Tarefa`**:
