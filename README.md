@@ -296,19 +296,6 @@ Para começar a usar este projeto, siga os passos abaixo:
     ```bash
     npm install -g typescript
     ```
-
-    **Instalação local (para este projeto específico):**
-
-    ```bash
-    npm install typescript --save-dev
-    ```
-
-    Após a instalação do TypeScript, você pode instalar outras dependências do projeto (se houver alguma no `package.json`):
-
-    ```bash
-    npm install
-    ```
-
 ---
 
 ## Compilação
