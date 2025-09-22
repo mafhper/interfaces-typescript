@@ -1,4 +1,4 @@
-# Interfaces-TypeScript
+# Interfaces em TypeScript
 
 **Autor:** Matheus Pereira
 
