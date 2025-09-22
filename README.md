@@ -382,11 +382,3 @@ Este projeto foi elaborado para demonstrar as **interfaces em TypeScript** atrav
 
 -   **Organização de Código com Funções e Lógica de Negócio:**
     -   Analise como as funções de CRUD (Criar, Ler, Atualizar, Deletar/Concluir) são implementadas para interagir com os dados tipados, mantendo a lógica de cada sistema (agendamento, biblioteca, tarefas) clara e modular.
-
-Ao final, você terá bons exemplos sobre como usar interfaces para construir aplicações TypeScript mais robustas, organizadas e fáceis de manter.
-
----
-
-## Licença
-
-Este projeto está sob a licença MIT.
